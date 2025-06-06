@@ -35,6 +35,15 @@ namespace AdvancedAjax.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        [HttpGet]
+         public IActionResult CreateModalForm()
+        { 
+             Country country = new Country();
+             return PartialView("_CreateModalForm", country);
+        }
+
+
         [HttpGet]
         public IActionResult Details(int Id)
         {
@@ -65,7 +74,37 @@ namespace AdvancedAjax.Controllers
             country = _context.Countries
              .Where(c => c.Id == id).FirstOrDefault();
             return country;
+        [HttpGet]
+        public IActionResult Details(int Id)
+        {
+            Country country = GetCountry(Id);
+            return View(country);
+        }
 
+        [HttpGet]
+        public IActionResult Edit(int Id)
+        {
+            Country country = GetCountry(Id);
+            return View(country);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult Edit(Country country)
+        {
+            _context.Attach(country);
+            _context.Entry(country).State = EntityState.Modified;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private Country GetCountry(int id)
+        {
+            Country country;
+            country = _context.Countries
+             .Where(c => c.Id == id).FirstOrDefault();
+            return country;
+}
         }
 
         [HttpGet]

@@ -41,3 +41,8 @@ $(".custom-file-input").on("change", function () {
     document.getElementById('PhotoUrl').value = fileName;
 
 });
+
+function ShowCreateModalForm() {
+    $("#CreateDialogHolder").modal('show');
+    return;
+}
