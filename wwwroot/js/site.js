@@ -43,6 +43,6 @@ $(".custom-file-input").on("change", function () {
 });
 
 function ShowCreateModalForm() {
-    $("#CreateDialogHolder").modal('show');
+    $("#DivCreateDialogHolder").modal('show');
     return;
 }
