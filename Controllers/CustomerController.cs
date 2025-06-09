@@ -93,22 +93,38 @@ namespace AdvancedAjax.Controllers
         }
 
 
+
         [HttpGet]
-        public IActionResult Delete(int Id)
+        public IActionResult Delete(int id)
         {
-            Customer customer = _context.Customers.Where(c => c.Id == Id).FirstOrDefault();
+            var customer = _context.Customers
+                .Include(c => c.City)
+                .ThenInclude(city => city.Country)
+                .FirstOrDefault(c => c.Id == id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
             return View(customer);
         }
 
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [HttpPost]
-        public IActionResult Delete(Customer customer)
+        public IActionResult DeleteConfirmed(int id)
         {
-            _context.Attach(customer);
-            _context.Entry(customer).State = EntityState.Deleted;
+            var customer = _context.Customers.Find(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            _context.Customers.Remove(customer);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
 
 
         private List<SelectListItem> GetCountries()
