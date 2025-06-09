@@ -42,7 +42,7 @@ namespace AdvancedAjax.Controllers
             return PartialView("_CreateModalForm", country);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult CreateModalForm(Country country)
         {
             _context.Add(country);
